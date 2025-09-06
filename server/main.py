@@ -22,10 +22,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan, title=settings.app_name)
 
 from server.users.router import router as user_router
+from server.auth.router import router as auth_router
 
-routers = (user_router,)
+routers = (user_router,auth_router,)
 for router in routers:
-    app.include_router(router)
+    app.include_router(router, prefix="/api")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
